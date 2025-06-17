@@ -15,8 +15,7 @@ const formData = ref<TaskForm>({
 
 const store = useStore()
 
-const addTask = (e: Event) => {
-  e.preventDefault()
+const addTask = () => {
   if (formData.value.title.trim()) {
     const newTask = {
       ...formData.value,
@@ -32,7 +31,7 @@ const addTask = (e: Event) => {
 </script>
 
 <template>
-  <form @submit="addTask" class="task-form">
+  <form @submit.prevent="addTask" class="task-form">
     <label for="task_title" class="title" aria-label="Название">
       <input
         class="input"
