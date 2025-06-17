@@ -2,6 +2,13 @@
 import TaskForm from '@/components/TaskForm.vue'
 import TaskFilter from '@/components/TaskFilter.vue'
 import TaskList from '@/components/TaskList.vue'
+import { ref } from 'vue'
+
+const showedAmount = ref(0)
+
+const setAmount = (amount: number) => {
+  showedAmount.value = amount
+}
 </script>
 
 <template>
@@ -13,8 +20,9 @@ import TaskList from '@/components/TaskList.vue'
     <section class="tasks-section">
       <div class="filters">
         <TaskFilter />
+        <p v-show="showedAmount" class="text">Всего: {{ showedAmount }}</p>
       </div>
-      <TaskList />
+      <TaskList @show-amount="(amount) => setAmount(amount)" />
     </section>
   </main>
 </template>
@@ -28,4 +36,9 @@ main
   max-width: 800px
   margin: 0 auto
   width: 100%
+  .tasks-section
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: space-between
 </style>
