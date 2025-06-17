@@ -12,6 +12,7 @@ const emit = defineEmits<{
 }>()
 
 const handleDelete = () => {
+  confirm('Вы точно хотите удалить задачу?')
   emit('delete', props.task.id)
 }
 </script>
