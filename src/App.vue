@@ -12,7 +12,7 @@ const setAmount = (amount: number) => {
 </script>
 
 <template>
-  <header>Задачи</header>
+  <header><h1>Задачи</h1></header>
   <main>
     <section class="add-section">
       <TaskForm />
@@ -28,6 +28,14 @@ const setAmount = (amount: number) => {
 </template>
 
 <style lang="sass" scoped>
+header
+  display: flex
+  justify-content: center
+  align-items: center
+  padding: 10px 0 30px
+  h1
+    font-size: 30px
+    font-weight: bold
 
 main
   display: flex
@@ -37,8 +45,16 @@ main
   margin: 0 auto
   width: 100%
   .tasks-section
+    margin-top: 10px
     display: flex
-    flex-direction: row
-    align-items: center
-    justify-content: space-between
+    flex-direction: column
+    gap: 50px
+    max-height: calc(100% - 200px)
+    .filters
+      display: flex
+      flex-direction: row
+      align-items: center
+      justify-content: space-between
+      .text
+        color: #595959
 </style>

@@ -14,7 +14,17 @@ defineEmits<{
 
 <style lang="sass" scoped>
 .btn
-  background-color: white
+  display: flex
+  justify-content: center
+  align-items: center
+  padding: 5px 10px
+  border-radius: 20px
+  background-color: #7c7c7c
+  border: 2px solid #7c7c7c
+  color: white
+  font-size: 14px
   &.active
     background-color: green
+    border-color:  green
+    color: black
 </style>

@@ -34,4 +34,10 @@ const setFilter = (filter: TaskFilter) => {
   </div>
 </template>
 
-<style scoped></style>
+<style lang="sass" scoped>
+.filters
+  display: flex
+  flex-direction: row
+  gap: 10px
+  align-items: center
+</style>
