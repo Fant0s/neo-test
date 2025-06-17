@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import TaskComponent from '@/components/TaskComponent.vue'
 import { useStore } from '@/store'
-import { computed, onMounted, watch, ref } from 'vue'
-import { TaskFilter } from '@/types/task/task.ts'
+import { computed, onMounted, watch, ref, nextTick } from 'vue'
+import { type Task, TaskFilter } from '@/types/task/task.ts'
 
 const emits = defineEmits<{
   (e: 'showAmount', amount: number): void
@@ -18,21 +18,25 @@ const notCompletedTasks = computed(() => store.getters['task/notCompletedTasks']
 
 const showedTasks = ref<Task[]>([])
 
-const updateShowedTasks = () => {
+const updateShowedTasksAndEmit = () => {
+  let newTasks: Task[] = []
+
   if (activeFilter.value === TaskFilter.ALL) {
-    showedTasks.value = tasks.value
+    newTasks = [...tasks.value]
   } else if (activeFilter.value === TaskFilter.COMPLETED) {
-    showedTasks.value = completedTasks.value
+    newTasks = [...completedTasks.value]
   } else {
-    showedTasks.value = notCompletedTasks.value
+    newTasks = [...notCompletedTasks.value]
   }
+
+  showedTasks.value = newTasks
+
+  nextTick(() => {
+    emits('showAmount', newTasks.length)
+  })
 }
 
-watch([activeFilter, tasks], updateShowedTasks, { immediate: true })
-
-watch(showedTasks, (newVal) => {
-  emits('showAmount', newVal.length)
-})
+watch([activeFilter, tasks], updateShowedTasksAndEmit, { immediate: true, deep: true })
 
 onMounted(() => {
   store.dispatch('task/loadTasks')
