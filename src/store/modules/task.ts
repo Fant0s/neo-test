@@ -112,6 +112,16 @@ const mutations = {
   addTask(state: TaskState, task: Task) {
     state.list.push(task)
   },
+  deleteTask(state: TaskState, id: number) {
+    state.list = state.list.filter((task: Task) => task.id !== id)
+  },
+  toggleTask(state: TaskState, id: number) {
+    const newList = state.list
+    const item = newList.find((task) => task.id === id)
+    if (item) item.completed = !item.completed
+
+    state.list = newList
+  },
   setTasks(state: TaskState, tasks: Tasks) {
     state.list = tasks
   },

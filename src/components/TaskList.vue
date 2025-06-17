@@ -37,6 +37,13 @@ watch(
 onMounted(() => {
   store.dispatch('task/loadTasks')
 })
+
+const handleDelete = (id) => {
+  store.dispatch('task/deleteTask', id)
+}
+const handleUpdate = (id) => {
+  store.dispatch('task/toggleTask', id)
+}
 </script>
 
 <template>
@@ -44,7 +51,13 @@ onMounted(() => {
     {{ showedTasks.length }}
     <template v-if="!loadingList">
       <div v-if="showedTasks.length === 0">Задач не найдено</div>
-      <TaskComponent v-for="task in showedTasks" :key="task.id" :task="task" />
+      <TaskComponent
+        v-for="task in showedTasks"
+        :key="task.id"
+        :task="task"
+        @delete="(id) => handleDelete(id)"
+        @update="(id) => handleUpdate(id)"
+      />
     </template>
     <div v-else class="loader">Загрузка..</div>
   </div>

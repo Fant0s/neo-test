@@ -14,14 +14,16 @@ const emit = defineEmits<{
 const handleDelete = () => {
   emit('delete', props.task.id)
 }
-const handleEdit = () => {
-  emit('update', props.task.id)
-}
 </script>
 
 <template>
   <div class="task" :id="`task_${props.task.id}`">
-    <input type="checkbox" v-model="props.task.completed" class="checkbox" />
+    <input
+      type="checkbox"
+      :value="props.task.completed"
+      @change="$emit('update', props.task.id)"
+      class="checkbox"
+    />
     <h2 class="title">{{ props.task.title }}</h2>
     <button class="delete-btn" @click="handleDelete">Delete</button>
   </div>
