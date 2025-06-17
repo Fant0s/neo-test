@@ -34,7 +34,7 @@ const handleDelete = () => {
       <h2 class="title">{{ props.task.title }}</h2>
     </div>
     <div class="bottom">
-      <button class="delete-btn" @click="handleDelete">Delete</button>
+      <button class="delete-btn" @click="handleDelete">Удалить</button>
     </div>
   </div>
 </template>
