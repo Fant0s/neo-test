@@ -3,6 +3,7 @@ import TaskComponent from '@/components/TaskComponent.vue'
 import { useStore } from '@/store'
 import { computed, onMounted, watch, ref } from 'vue'
 import { TaskFilter } from '@/types/task/task.ts'
+
 const store = useStore()
 
 const loadingList = computed(() => store.state.task.isLoadingList)
@@ -25,6 +26,14 @@ const updateShowedTasks = () => {
 
 watch(activeFilter, updateShowedTasks, { immediate: true })
 
+watch(
+  tasks,
+  () => {
+    showedTasks.value = tasks.value
+  },
+  { immediate: true },
+)
+
 onMounted(() => {
   store.dispatch('task/loadTasks')
 })
@@ -33,10 +42,11 @@ onMounted(() => {
 <template>
   <div class="tasks">
     {{ showedTasks.length }}
-    <template v-if="loadingList">
+    <template v-if="!loadingList">
+      <div v-if="showedTasks.length === 0">Задач не найдено</div>
       <TaskComponent v-for="task in showedTasks" :key="task.id" :task="task" />
     </template>
-    <div v-else class="loader"></div>
+    <div v-else class="loader">Загрузка..</div>
   </div>
 </template>
 
