@@ -39,7 +39,12 @@ const getters = {
   generateTaskID() {
     return state.list.length ? state.list.length + 1 : 4
   },
-  filteredTasks,
+  completedTasks() {
+    return state.list.filter((task: Task) => task.completed)
+  },
+  notCompletedTasks() {
+    return state.list.filter((task: Task) => !task.completed)
+  },
 }
 
 const actions = {
