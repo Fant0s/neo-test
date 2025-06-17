@@ -38,6 +38,7 @@ const addTask = (e: Event) => {
         class="input"
         type="text"
         name="task_title"
+        id="task_title"
         v-model.trim="formData.title"
         placeholder="Введите название задачи"
         required
