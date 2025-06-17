@@ -4,6 +4,10 @@ import { useStore } from '@/store'
 import { computed, onMounted, watch, ref } from 'vue'
 import { TaskFilter } from '@/types/task/task.ts'
 
+const emits = defineEmits<{
+  (e: 'showAmount', amount: number): void
+}>()
+
 const store = useStore()
 
 const loadingList = computed(() => store.state.task.isLoadingList)
@@ -24,31 +28,26 @@ const updateShowedTasks = () => {
   }
 }
 
-watch(activeFilter, updateShowedTasks, { immediate: true })
+watch([activeFilter, tasks], updateShowedTasks, { immediate: true })
 
-watch(
-  tasks,
-  () => {
-    showedTasks.value = tasks.value
-  },
-  { immediate: true },
-)
+watch(showedTasks, (newVal) => {
+  emits('showAmount', newVal.length)
+})
 
 onMounted(() => {
   store.dispatch('task/loadTasks')
 })
 
-const handleDelete = (id) => {
+const handleDelete = (id: number) => {
   store.dispatch('task/deleteTask', id)
 }
-const handleUpdate = (id) => {
+const handleUpdate = (id: number) => {
   store.dispatch('task/toggleTask', id)
 }
 </script>
 
 <template>
   <div class="tasks">
-    {{ showedTasks.length }}
     <template v-if="!loadingList">
       <div v-if="showedTasks.length === 0">Задач не найдено</div>
       <TaskComponent
@@ -63,4 +62,9 @@ const handleUpdate = (id) => {
   </div>
 </template>
 
-<style scoped lang="sass"></style>
+<style scoped lang="sass">
+.tasks
+  display: flex
+  flex-direction: column
+  gap: 20px
+</style>
